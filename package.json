@@ -1,6 +1,6 @@
 {
   "name": "@omniforce/mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Model Context Protocol (MCP) server for OmniForce — GEO & AI-search visibility. Audit any site's AI-search readiness and query your tracked prompts, competitors, visibility runs, and reports from any MCP client.",
   "type": "module",
   "license": "MIT",
