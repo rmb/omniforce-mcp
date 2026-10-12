@@ -140,4 +140,19 @@ export class OmniforceClient {
   listReports(): Promise<unknown> {
     return this.request("/v1/public/reports");
   }
+
+  /** Plan, included allotments, current usage, and available upgrade tiers. */
+  getAccount(): Promise<unknown> {
+    return this.request("/v1/public/account");
+  }
+
+  /** Create a hosted checkout link to upgrade the tenant's plan. */
+  createCheckout(tier: string, email?: string): Promise<unknown> {
+    const body: Record<string, string> = { tier };
+    if (email) body.email = email;
+    return this.request("/v1/public/checkout", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  }
 }

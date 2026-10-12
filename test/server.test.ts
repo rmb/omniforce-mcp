@@ -22,6 +22,18 @@ function stubClient(): OmniforceClient {
           headers: { "content-type": "application/json" },
         });
       }
+      if (url.endsWith("/v1/public/account")) {
+        return new Response(
+          JSON.stringify({ tier: "starter", paid: true, upgrade: { availableTiers: [] } }),
+          { status: 200, headers: { "content-type": "application/json" } }
+        );
+      }
+      if (url.endsWith("/v1/public/checkout")) {
+        return new Response(
+          JSON.stringify({ url: "https://polar.test/checkout/growth", tier: "growth" }),
+          { status: 201, headers: { "content-type": "application/json" } }
+        );
+      }
       return new Response(JSON.stringify({ error: "nope" }), {
         status: 500,
         headers: { "content-type": "application/json" },
@@ -50,12 +62,14 @@ describe("omniforce-mcp server", () => {
       const names = tools.map((t) => t.name).sort();
       expect(names).toEqual(
         [
+          "omniforce_account",
           "omniforce_geo_scan",
           "omniforce_get_brand",
           "omniforce_list_competitors",
           "omniforce_list_prompts",
           "omniforce_list_reports",
           "omniforce_list_snapshots",
+          "omniforce_upgrade",
         ].sort()
       );
     } finally {
@@ -74,6 +88,36 @@ describe("omniforce-mcp server", () => {
       const text = (result.content as Array<{ type: string; text: string }>)[0].text;
       expect(text).toContain("example.com");
       expect(text).toContain("82");
+    } finally {
+      await client.close();
+      await server.close();
+    }
+  });
+
+  it("returns account usage", async () => {
+    const { server, client } = await connect();
+    try {
+      const result = await client.callTool({
+        name: "omniforce_account",
+        arguments: {},
+      });
+      const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+      expect(text).toContain("starter");
+    } finally {
+      await client.close();
+      await server.close();
+    }
+  });
+
+  it("creates an upgrade checkout link", async () => {
+    const { server, client } = await connect();
+    try {
+      const result = await client.callTool({
+        name: "omniforce_upgrade",
+        arguments: { tier: "growth" },
+      });
+      const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+      expect(text).toContain("polar.test/checkout/growth");
     } finally {
       await client.close();
       await server.close();

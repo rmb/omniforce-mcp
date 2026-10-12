@@ -15,7 +15,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { OmniforceApiError, OmniforceClient } from "./client.js";
 
-export const VERSION = "0.1.0";
+export const VERSION = "0.1.1";
 export const SERVER_NAME = "omniforce-mcp";
 
 type ToolResult = {
@@ -132,6 +132,45 @@ export function createOmniforceMcpServer(client?: OmniforceClient): McpServer {
       annotations: { readOnlyHint: true },
     },
     async () => withClient("List reports", (c) => c.listReports())
+  );
+
+  server.registerTool(
+    "omniforce_account",
+    {
+      title: "Account & usage",
+      description:
+        "Return the tenant's plan tier, included allotments, current usage, " +
+        "and the available upgrade tiers.",
+      inputSchema: {},
+      annotations: { readOnlyHint: true },
+    },
+    async () => withClient("Get account", (c) => c.getAccount())
+  );
+
+  server.registerTool(
+    "omniforce_upgrade",
+    {
+      title: "Upgrade plan",
+      description:
+        "Create a hosted checkout link to upgrade the OmniForce plan " +
+        "(solo, starter, growth, scale). Returns a URL the user can open to pay. " +
+        "Use when a requested feature is blocked by the current plan.",
+      inputSchema: {
+        tier: z
+          .enum(["solo", "starter", "growth", "scale"])
+          .describe("Plan tier to upgrade to."),
+        email: z
+          .string()
+          .email()
+          .optional()
+          .describe(
+            "Billing email. Required only if the account has no owner email on file."
+          ),
+      },
+      annotations: { readOnlyHint: false, openWorldHint: true },
+    },
+    async ({ tier, email }) =>
+      withClient("Create upgrade link", (c) => c.createCheckout(tier, email))
   );
 
   return server;

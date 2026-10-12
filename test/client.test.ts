@@ -83,6 +83,45 @@ describe("OmniforceClient", () => {
     await expect(client.listCompetitors()).rejects.toThrow("Tenant not found");
   });
 
+  it("reads the account and creates a checkout session", async () => {
+    const calls: Array<{ url: string; init?: RequestInit }> = [];
+    const client = new OmniforceClient({
+      baseUrl: "https://api.example.test",
+      apiKey: "omk_test",
+      fetchImpl: async (input, init) => {
+        calls.push({ url: String(input), init });
+        return jsonResponse({ ok: true });
+      },
+    });
+
+    await client.getAccount();
+    await client.createCheckout("growth", "buyer@example.com");
+
+    expect(calls[0].url).toBe("https://api.example.test/v1/public/account");
+    expect(calls[0].init?.method).toBeUndefined();
+    expect(calls[1].url).toBe("https://api.example.test/v1/public/checkout");
+    expect(calls[1].init?.method).toBe("POST");
+    expect(JSON.parse(calls[1].init?.body as string)).toEqual({
+      tier: "growth",
+      email: "buyer@example.com",
+    });
+  });
+
+  it("omits the email when creating a checkout without one", async () => {
+    let body: string | undefined;
+    const client = new OmniforceClient({
+      baseUrl: "https://api.example.test",
+      apiKey: "omk_test",
+      fetchImpl: async (_input, init) => {
+        body = init?.body as string;
+        return jsonResponse({ url: "https://polar.test/x" });
+      },
+    });
+
+    await client.createCheckout("solo");
+    expect(JSON.parse(body as string)).toEqual({ tier: "solo" });
+  });
+
   it("clamps the snapshots limit into a safe range", async () => {
     const urls: string[] = [];
     const client = new OmniforceClient({

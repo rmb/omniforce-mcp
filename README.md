@@ -1,5 +1,8 @@
 # omniforce-mcp
 
+[![npm version](https://img.shields.io/npm/v/@omniforce/mcp.svg)](https://www.npmjs.com/package/@omniforce/mcp)
+[![license](https://img.shields.io/npm/l/@omniforce/mcp.svg)](./LICENSE)
+
 A [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server for
 **[OmniForce](https://www.omniforce.run/)** — the GEO & AI-search visibility
 platform. It lets any MCP client (Claude Desktop, Cursor, Cline, Continue, …)
@@ -19,6 +22,8 @@ visibility runs, and reports without leaving the chat.
 | `omniforce_list_competitors` | API key | Competitors tracked for the tenant. |
 | `omniforce_list_snapshots` | API key | Recent radar runs (citation/visibility snapshots). |
 | `omniforce_list_reports` | API key | Shareable visibility reports. |
+| `omniforce_account` | API key | Plan tier, included allotments, current usage, available upgrades. |
+| `omniforce_upgrade` | API key | Create a hosted checkout link to upgrade the plan. |
 
 `omniforce_geo_scan` is **keyless** — install the server and it works
 immediately. The other tools read tenant data and need an API key.
@@ -82,6 +87,17 @@ npm test                  # vitest
 - "Run a GEO scan on https://example.com and summarize the top 3 fixes."
 - "List my tracked prompts and competitors."
 - "Pull my last 20 visibility runs and tell me where citations are decaying."
+- "What plan am I on and how much of my quota is left?"
+- "I want to track another competitor — what would I need to upgrade to?"
+
+## Plans & upgrades
+
+`omniforce_geo_scan` is free and keyless. The monitoring tools (prompts,
+competitors, runs, reports, account) read tenant data and work on any plan.
+When a request needs a higher tier, call `omniforce_account` to see the current
+plan and usage, then `omniforce_upgrade` with a tier
+(`solo` · `starter` · `growth` · `scale`) to generate a Polar checkout link the
+user can open to pay. See [omniforce.run](https://www.omniforce.run/).
 
 ## Security
 
