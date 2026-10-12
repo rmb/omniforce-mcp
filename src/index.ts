@@ -15,7 +15,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { OmniforceApiError, OmniforceClient } from "./client.js";
 
-export const VERSION = "0.1.3";
+export const VERSION = "0.1.4";
 export const SERVER_NAME = "omniforce-mcp";
 
 type ToolResult = {
