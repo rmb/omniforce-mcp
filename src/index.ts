@@ -33,8 +33,26 @@ function errorResult(message: string): ToolResult {
   return { isError: true, content: [{ type: "text", text: message }] };
 }
 
-export function createOmniforceMcpServer(client?: OmniforceClient): McpServer {
+export interface OmniforceServerOptions {
+  /** Append a one-line upsell to anonymous geo_scan results (default: true). */
+  ctaFooter?: boolean;
+  /** Signup URL used in the CTA footer and upsell hints. */
+  signupUrl?: string;
+}
+
+export function createOmniforceMcpServer(
+  client?: OmniforceClient,
+  options: OmniforceServerOptions = {}
+): McpServer {
   const server = new McpServer({ name: SERVER_NAME, version: VERSION });
+
+  const signupUrl =
+    options.signupUrl ||
+    process.env.OMNIFORCE_SIGNUP_URL ||
+    "https://www.omniforce.run/?utm_source=mcp&utm_medium=remote&utm_content=remote";
+  const ctaFooter =
+    options.ctaFooter ?? (process.env.MCP_CTA_FOOTER || "on") !== "off";
+  const anonymous = !(client?.hasApiKey ?? false);
 
   const withClient = async (
     label: string,
@@ -44,7 +62,9 @@ export function createOmniforceMcpServer(client?: OmniforceClient): McpServer {
       return textResult(await fn(client ?? new OmniforceClient()));
     } catch (error) {
       if (error instanceof OmniforceApiError) {
-        return errorResult(`${label} failed (HTTP ${error.status}): ${error.message}`);
+        return errorResult(
+          `${label} failed (HTTP ${error.status}): ${error.message}${error.hint}`
+        );
       }
       return errorResult(`${label} failed: ${(error as Error).message}`);
     }
@@ -64,7 +84,15 @@ export function createOmniforceMcpServer(client?: OmniforceClient): McpServer {
       },
       annotations: { readOnlyHint: true, openWorldHint: true },
     },
-    async ({ url }) => withClient("GEO scan", (c) => c.geoScan(url))
+    async ({ url }) => {
+      const result = await withClient("GEO scan", (c) => c.geoScan(url));
+      if (ctaFooter && anonymous && !result.isError) {
+        result.content[0].text +=
+          "\n\n---\nTrack this domain's AI citations in OmniForce " +
+          `(free plan available): ${signupUrl}`;
+      }
+      return result;
+    }
   );
 
   server.registerTool(

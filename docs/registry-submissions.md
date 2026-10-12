@@ -90,21 +90,15 @@ Long:
   ```
 - **Verify:** https://registry.modelcontextprotocol.io/v0/servers?search=omniforce
 
-### Smithery — https://smithery.ai/new
-- **Account:** required (sign in with GitHub or email).
-- **Important:** Smithery's *URL* flow needs **Streamable HTTP** hosting; its
-  *Local* flow needs an **MCPB bundle** — a plain `npx` package is NOT accepted
-  on its own. Two options:
-  1. **Local (MCPB):** build the bundle with `npm run mcpb` → `server.mcpb`
-     (manifest at repo root, spec 0.3) and upload it.
-  2. **URL (recommended, later):** stand up a remote Streamable-HTTP endpoint
-     (e.g. `https://mcp.omniforce.run/mcp`) and publish that URL. Optionally
-     serve `/.well-known/mcp/server-card.json` for metadata.
-- **CLI alternative:** `smithery mcp publish ./server.mcpb -n omni/omniforce-mcp`
-- **Config schema:** `OMNIFORCE_API_KEY` (string, secret, optional)
-- **Verification:** after publishing, Settings → Verification.
-- **Status:** `server.mcpb` builds and runs (verified). CI attaches it to each
-  GitHub Release.
+### Smithery — https://smithery.ai/new  (URL flow)
+- **Endpoint:** `https://mcp-oss.omniforce.run/mcp` (Streamable HTTP).
+- **Namespace / Server ID:** `omniforce` / `mcp` → `omniforce/mcp`.
+- **Config schema:** `OMNIFORCE_API_KEY` (string, secret, optional) → injected as
+  the `Authorization: Bearer` header; without it, the keyless `omniforce_geo_scan`
+  still works (rate-limited per IP/day) with an upsell.
+- **Status:** remote server implemented + tested; hosting on Coolify at
+  `mcp-oss.omniforce.run`.
+- *(Local MCPB alternative: `npm run mcpb` → `server.mcpb`.)*
 
 ### Glama — https://glama.ai/mcp/servers
 - **Account:** sign in, then use **Add Server**.
@@ -146,8 +140,9 @@ Long:
 - [x] Awesome list PR: https://github.com/punkpeye/awesome-mcp-servers/pull/16249
 - [ ] Release v0.1.2 (triggers npm + Official Registry + `server.mcpb` asset)
 - [ ] Official MCP Registry listing (auto via release)
-- [ ] Smithery (upload `server.mcpb`)
-- [ ] Glama (Add Server → repo)
+- [x] Remote Streamable-HTTP endpoint implemented (`Dockerfile.http`, `/mcp`)
+- [ ] Deploy remote endpoint → `mcp-oss.omniforce.run`
+- [ ] Smithery — submit URL `https://mcp-oss.omniforce.run/mcp` (`omniforce/mcp`)
+- [x] Glama — submitted
 - [ ] mcp.so — paid only ($39); optional
 - [~] PulseMCP — paused (auto-ingests the Official Registry when back)
-- [ ] Optional: remote Streamable-HTTP endpoint (`mcp.omniforce.run`)

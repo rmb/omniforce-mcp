@@ -82,6 +82,24 @@ node dist/index.js        # speaks MCP over stdio
 npm test                  # vitest
 ```
 
+## Remote (HTTP) endpoint
+
+Run the same tools over Streamable HTTP for registries and hosted clients:
+
+```bash
+PORT=8080 OMNIFORCE_API_BASE_URL=https://api.omniforce.run npm run start:http
+# or:
+docker build -f Dockerfile.http -t omniforce-mcp-http . && docker run -p 8080:8080 omniforce-mcp-http
+```
+
+- `POST /mcp` — Streamable HTTP (MCP)
+- `GET /health`, `GET /.well-known/mcp/server-card.json`
+
+Auth is **per request**: send `Authorization: Bearer omk_...` (or `x-api-key`) to
+use the tenant tools. Anonymous callers get the keyless `omniforce_geo_scan`,
+rate-limited per IP/day (`OMNIFORCE_ANON_DAILY_LIMIT`, default 10) plus an upsell
+link; set `MCP_CTA_FOOTER=off` to disable the footer.
+
 ## Example prompts
 
 - "Run a GEO scan on https://example.com and summarize the top 3 fixes."

@@ -19,11 +19,34 @@ export interface OmniforceClientOptions {
 
 export class OmniforceApiError extends Error {
   readonly status: number;
+  readonly code?: string;
+  readonly upgradeUrl?: string;
+  readonly signupUrl?: string;
+  readonly dashboardUrl?: string;
 
-  constructor(message: string, status: number) {
+  constructor(
+    message: string,
+    status: number,
+    meta: {
+      code?: string;
+      upgradeUrl?: string;
+      signupUrl?: string;
+      dashboardUrl?: string;
+    } = {}
+  ) {
     super(message);
     this.name = "OmniforceApiError";
     this.status = status;
+    this.code = meta.code;
+    this.upgradeUrl = meta.upgradeUrl;
+    this.signupUrl = meta.signupUrl;
+    this.dashboardUrl = meta.dashboardUrl;
+  }
+
+  /** A short, human-readable upsell hint, or "" when none applies. */
+  get hint(): string {
+    const link = this.upgradeUrl || this.signupUrl || this.dashboardUrl;
+    return link ? ` Upgrade or continue here: ${link}` : "";
   }
 }
 
@@ -92,13 +115,20 @@ export class OmniforceClient {
     }
 
     if (!response.ok) {
+      const obj = (data && typeof data === "object" ? data : {}) as Record<string, unknown>;
       let detail = response.statusText || "Request failed";
-      if (data && typeof data === "object" && "error" in data) {
-        detail = String((data as { error: unknown }).error);
+      if (typeof obj.error === "string" && obj.error.trim()) {
+        detail = obj.error;
       } else if (typeof data === "string" && data.trim()) {
         detail = data.trim();
       }
-      throw new OmniforceApiError(detail, response.status);
+      const str = (v: unknown) => (typeof v === "string" && v ? v : undefined);
+      throw new OmniforceApiError(detail, response.status, {
+        code: str(obj.code),
+        upgradeUrl: str(obj.upgrade_url),
+        signupUrl: str(obj.signup_url),
+        dashboardUrl: str(obj.dashboard_url),
+      });
     }
 
     return data as T;
