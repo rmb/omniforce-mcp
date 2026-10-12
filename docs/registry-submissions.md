@@ -159,8 +159,9 @@ Long:
 - [x] CI: publish workflow does npm + Official Registry (OIDC) + release asset
 - [x] Awesome list PR: https://github.com/punkpeye/awesome-mcp-servers/pull/16249
 - [x] Released v0.1.4 (npm + Official MCP Registry + `server.mcpb` asset)
-- [x] Official MCP Registry listing: `io.github.rmb/omniforce-mcp` 0.1.4
+- [x] Official MCP Registry: `io.github.rmb/omniforce-mcp` 0.1.5 (npm package + `streamable-http` remote)
 - [x] Remote Streamable-HTTP endpoint implemented (`Dockerfile.http`, `/mcp`)
+- [x] Dev.to launch post: https://dev.to/official_ruimbarreira/omniforce-mcp-server-check-any-sites-ai-search-readiness-from-claude-or-cursor-19cc
 - [x] Deployed remote endpoint → `https://mcp-oss.omniforce.run/mcp`
 - [x] Smithery — published `https://mcp-oss.omniforce.run/mcp` (`omniforce/mcp`)
 - [~] Glama — submitted, under review
