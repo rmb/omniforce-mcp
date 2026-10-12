@@ -79,14 +79,16 @@ Long:
 - **Important:** Smithery's *URL* flow needs **Streamable HTTP** hosting; its
   *Local* flow needs an **MCPB bundle** — a plain `npx` package is NOT accepted
   on its own. Two options:
-  1. **Local (MCPB):** build `server.mcpb` from this repo and upload it.
+  1. **Local (MCPB):** build the bundle with `npm run mcpb` → `server.mcpb`
+     (manifest at repo root, spec 0.3) and upload it.
   2. **URL (recommended, later):** stand up a remote Streamable-HTTP endpoint
      (e.g. `https://mcp.omniforce.run/mcp`) and publish that URL. Optionally
      serve `/.well-known/mcp/server-card.json` for metadata.
 - **CLI alternative:** `smithery mcp publish ./server.mcpb -n omni/omniforce-mcp`
 - **Config schema:** `OMNIFORCE_API_KEY` (string, secret, optional)
 - **Verification:** after publishing, Settings → Verification.
-- **Action needed:** decide MCPB vs remote. (We can add an MCPB build script.)
+- **Status:** `server.mcpb` builds and runs (verified). CI attaches it to each
+  GitHub Release.
 
 ### Glama — https://glama.ai/mcp/servers
 - **Account:** sign in, then use **Add Server**.
@@ -95,8 +97,7 @@ Long:
   server.
 - **Repository:** https://github.com/rmb/omniforce-mcp
 - **Description:** use the Long description above.
-- **Possible requirement:** a `Dockerfile` for Glama to build/verify. Add one if
-  the reviewer asks (npx package often works without it).
+- **Dockerfile:** provided at the repo root (stdio image, verified to run).
 - **Badge after indexing:**
   ```md
   [![rmb/omniforce-mcp MCP server](https://glama.ai/mcp/servers/rmb/omniforce-mcp/badge)](https://glama.ai/mcp/servers/rmb/omniforce-mcp)

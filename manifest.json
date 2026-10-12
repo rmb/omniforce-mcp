@@ -1,0 +1,57 @@
+{
+  "manifest_version": "0.3",
+  "name": "omniforce-mcp",
+  "display_name": "OmniForce",
+  "version": "0.1.1",
+  "description": "AI-search visibility: GEO audits, tracked prompts, competitors, citations.",
+  "long_description": "OmniForce is a GEO (Generative Engine Optimization) & AI-search visibility platform. This extension exposes it to any Model Context Protocol client: run an evidence-based GEO audit of any URL (keyless), and read your tracked prompts, competitors, visibility runs, and reports. It also surfaces your plan, usage, and a one-click upgrade link.",
+  "author": {
+    "name": "OmniForce",
+    "url": "https://www.omniforce.run/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rmb/omniforce-mcp.git"
+  },
+  "homepage": "https://www.omniforce.run/",
+  "support": "https://github.com/rmb/omniforce-mcp/issues",
+  "license": "MIT",
+  "keywords": ["geo", "aeo", "ai-search", "ai-visibility", "seo", "marketing", "analytics", "citations", "mcp"],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": {
+        "OMNIFORCE_API_KEY": "${user_config.api_key}"
+      }
+    }
+  },
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "OmniForce API Key",
+      "description": "Optional. Enables the monitoring tools (tracked prompts, competitors, runs, reports). Leave blank to use the keyless GEO scan only. Create one at https://www.omniforce.run/.",
+      "sensitive": true,
+      "required": false
+    }
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "tools": [
+    { "name": "omniforce_geo_scan", "description": "Audit a website's GEO/AI-search readiness (no API key required)." },
+    { "name": "omniforce_get_brand", "description": "Return the authenticated tenant's brand profile." },
+    { "name": "omniforce_list_prompts", "description": "List tracked prompts across answer engines." },
+    { "name": "omniforce_list_competitors", "description": "List tracked competitors." },
+    { "name": "omniforce_list_snapshots", "description": "List recent AI citation/visibility runs." },
+    { "name": "omniforce_list_reports", "description": "List shareable visibility reports." },
+    { "name": "omniforce_account", "description": "Plan tier, usage, and available upgrades." },
+    { "name": "omniforce_upgrade", "description": "Create a hosted checkout link to upgrade the plan." }
+  ],
+  "tools_generated": false
+}
