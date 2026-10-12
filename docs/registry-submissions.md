@@ -93,11 +93,31 @@ Long:
 ### Smithery — https://smithery.ai/new  (URL flow)
 - **Endpoint:** `https://mcp-oss.omniforce.run/mcp` (Streamable HTTP).
 - **Namespace / Server ID:** `omniforce` / `mcp` → `omniforce/mcp`.
-- **Config schema:** `OMNIFORCE_API_KEY` (string, secret, optional) → injected as
-  the `Authorization: Bearer` header; without it, the keyless `omniforce_geo_scan`
-  still works (rate-limited per IP/day) with an upsell.
-- **Status:** remote server implemented + tested; hosting on Coolify at
-  `mcp-oss.omniforce.run`.
+- **Status:** live on Coolify at `mcp-oss.omniforce.run` (valid TLS).
+- **Config schema** (optional — prompts users for their key; without it the
+  keyless `omniforce_geo_scan` still works, rate-limited per IP/day):
+  ```json
+  {
+    "type": "object",
+    "properties": {
+      "apiKey": {
+        "type": "string",
+        "title": "OmniForce API Key",
+        "description": "Optional. Enables the tracking tools (prompts, competitors, runs, reports). Leave blank to use the keyless GEO scan. Create one at https://www.omniforce.run/.",
+        "x-from": { "header": "x-api-key" }
+      }
+    }
+  }
+  ```
+  No `Bearer` prefix is required — the server reads `x-api-key` directly (it also
+  accepts a raw `omk_...` or `Bearer omk_...` in `Authorization`). If you prefer
+  the `Authorization` header, use `"x-from": { "header": "x-omniforce-api-key" }`
+  with `"x-to": { "header": "Authorization" }`.
+- **CLI publish (with schema):**
+  ```bash
+  smithery mcp publish "https://mcp-oss.omniforce.run/mcp" -n omniforce/mcp \
+    --config-schema '{"type":"object","properties":{"apiKey":{"type":"string","title":"OmniForce API Key","x-from":{"header":"x-api-key"}}}}'
+  ```
 - *(Local MCPB alternative: `npm run mcpb` → `server.mcpb`.)*
 
 ### Glama — https://glama.ai/mcp/servers
@@ -138,10 +158,10 @@ Long:
 - [x] `server.json` + `mcpName` for the Official Registry (validated)
 - [x] CI: publish workflow does npm + Official Registry (OIDC) + release asset
 - [x] Awesome list PR: https://github.com/punkpeye/awesome-mcp-servers/pull/16249
-- [ ] Release v0.1.2 (triggers npm + Official Registry + `server.mcpb` asset)
-- [ ] Official MCP Registry listing (auto via release)
+- [x] Released v0.1.4 (npm + Official MCP Registry + `server.mcpb` asset)
+- [x] Official MCP Registry listing: `io.github.rmb/omniforce-mcp` 0.1.4
 - [x] Remote Streamable-HTTP endpoint implemented (`Dockerfile.http`, `/mcp`)
-- [ ] Deploy remote endpoint → `mcp-oss.omniforce.run`
+- [x] Deployed remote endpoint → `https://mcp-oss.omniforce.run/mcp`
 - [ ] Smithery — submit URL `https://mcp-oss.omniforce.run/mcp` (`omniforce/mcp`)
 - [x] Glama — submitted
 - [ ] mcp.so — paid only ($39); optional
