@@ -7,12 +7,12 @@
     "url": "https://github.com/rmb/omniforce-mcp",
     "source": "github"
   },
-  "version": "0.1.4",
+  "version": "0.1.5",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@omniforce/mcp",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "transport": {
         "type": "stdio"
       },
@@ -32,6 +32,12 @@
           "name": "OMNIFORCE_API_BASE_URL"
         }
       ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp-oss.omniforce.run/mcp"
     }
   ]
 }

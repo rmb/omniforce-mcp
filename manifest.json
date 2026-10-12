@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "omniforce-mcp",
   "display_name": "OmniForce",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "AI-search visibility: GEO audits, tracked prompts, competitors, citations.",
   "long_description": "OmniForce is a GEO (Generative Engine Optimization) & AI-search visibility platform. This extension exposes it to any Model Context Protocol client: run an evidence-based GEO audit of any URL (keyless), and read your tracked prompts, competitors, visibility runs, and reports. It also surfaces your plan, usage, and a one-click upgrade link.",
   "author": {
