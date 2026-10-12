@@ -74,6 +74,22 @@ Long:
 
 ## 2. Per-registry submission
 
+### Official MCP Registry (primary) — https://registry.modelcontextprotocol.io
+- **Why first:** it's the canonical registry; PulseMCP, Glama and others ingest
+  it automatically.
+- **Identity:** `io.github.rmb/omniforce-mcp` (GitHub OIDC namespace).
+- **Requirements (met):** `mcpName` in `package.json` + the package published to
+  npm + a valid `server.json` at the repo root (validated locally).
+- **Automated:** the **Publish** workflow installs `mcp-publisher`, runs
+  `login github-oidc`, and publishes on every release — no secrets required.
+- **Manual (if needed):**
+  ```bash
+  curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+  ./mcp-publisher login github
+  ./mcp-publisher publish
+  ```
+- **Verify:** https://registry.modelcontextprotocol.io/v0/servers?search=omniforce
+
 ### Smithery — https://smithery.ai/new
 - **Account:** required (sign in with GitHub or email).
 - **Important:** Smithery's *URL* flow needs **Streamable HTTP** hosting; its
@@ -104,33 +120,34 @@ Long:
   ```
 
 ### mcp.so — https://mcp.so/submit  (type: MCP Server)
-- **Form fields:** `Repository URL *` and `Name`.
-  - Repository URL: https://github.com/rmb/omniforce-mcp
-  - Name: OmniForce
-- **Free path:** submitted to the review queue.
-- **Paid path (optional):** $39 one-time — instant publish, verified badge,
-  featured placement, and a **dofollow** project link (DR72 domain).
-- **Recommendation:** start free; consider the $39 fast-track if review stalls.
+- **No free tier** — submission requires the **$39 one-time** publishing fee
+  (instant publish, verified badge, featured placement, dofollow link, DR72).
+- Fields if you pay: Repository URL = https://github.com/rmb/omniforce-mcp,
+  Name = OmniForce.
+- **Recommendation:** skip for now; revisit if the $39 dofollow link is worth it.
 
 ### PulseMCP — https://www.pulsemcp.com/submit
-- **Form fields:** Name, URL (GitHub repo), Description; may also ask for tags.
-  - Name: OmniForce
-  - URL: https://github.com/rmb/omniforce-mcp
-  - Description: use the Medium description above.
-  - Tags: geo, ai-search, marketing, analytics
-- **Note:** the page blocks automated fetches; verify exact fields in-browser.
+- **Paused:** submissions are temporarily closed. PulseMCP advises publishing to
+  the **Official MCP Registry** instead and states they will pick servers up
+  automatically when they reopen.
+- **Action:** nothing to do — publish to the Official Registry (above) and it
+  will propagate.
 
 ---
 
 ## 3. Checklist
 
 - [x] Public repo: https://github.com/rmb/omniforce-mcp
-- [x] npm: https://www.npmjs.com/package/@omniforce/mcp (0.1.1)
+- [x] npm: https://www.npmjs.com/package/@omniforce/mcp (0.1.2 pending release)
 - [x] GitHub topics set (mcp, model-context-protocol, geo, …)
+- [x] Dockerfile + MCPB bundle (`npm run mcpb` → `server.mcpb`)
+- [x] `server.json` + `mcpName` for the Official Registry (validated)
+- [x] CI: publish workflow does npm + Official Registry (OIDC) + release asset
 - [x] Awesome list PR: https://github.com/punkpeye/awesome-mcp-servers/pull/16249
-- [ ] Smithery (needs MCPB bundle or remote URL)
-- [ ] Glama (repo + optional Dockerfile)
-- [ ] mcp.so (repo URL + name)
-- [ ] PulseMCP (name + repo URL + description)
-- [ ] Optional: Dockerfile for Glama / self-host
-- [ ] Optional: remote Streamable-HTTP endpoint for Smithery + future listings
+- [ ] Release v0.1.2 (triggers npm + Official Registry + `server.mcpb` asset)
+- [ ] Official MCP Registry listing (auto via release)
+- [ ] Smithery (upload `server.mcpb`)
+- [ ] Glama (Add Server → repo)
+- [ ] mcp.so — paid only ($39); optional
+- [~] PulseMCP — paused (auto-ingests the Official Registry when back)
+- [ ] Optional: remote Streamable-HTTP endpoint (`mcp.omniforce.run`)

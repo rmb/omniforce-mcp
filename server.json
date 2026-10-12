@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.rmb/omniforce-mcp",
+  "title": "OmniForce",
+  "description": "AI-search visibility: GEO audits, tracked prompts, competitors, citations.",
+  "repository": {
+    "url": "https://github.com/rmb/omniforce-mcp",
+    "source": "github"
+  },
+  "version": "0.1.2",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@omniforce/mcp",
+      "version": "0.1.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Optional OmniForce API key; enables the monitoring tools (tracked prompts, competitors, runs, reports). Create one at https://www.omniforce.run/.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true,
+          "name": "OMNIFORCE_API_KEY"
+        },
+        {
+          "description": "Optional API base URL (defaults to https://api.omniforce.run).",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false,
+          "name": "OMNIFORCE_API_BASE_URL"
+        }
+      ]
+    }
+  ]
+}
