@@ -162,7 +162,7 @@ Long:
 - [x] Official MCP Registry listing: `io.github.rmb/omniforce-mcp` 0.1.4
 - [x] Remote Streamable-HTTP endpoint implemented (`Dockerfile.http`, `/mcp`)
 - [x] Deployed remote endpoint → `https://mcp-oss.omniforce.run/mcp`
-- [ ] Smithery — submit URL `https://mcp-oss.omniforce.run/mcp` (`omniforce/mcp`)
-- [x] Glama — submitted
-- [ ] mcp.so — paid only ($39); optional
+- [x] Smithery — published `https://mcp-oss.omniforce.run/mcp` (`omniforce/mcp`)
+- [~] Glama — submitted, under review
+- [ ] mcp.so — paid only ($39); skipped
 - [~] PulseMCP — paused (auto-ingests the Official Registry when back)
