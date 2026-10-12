@@ -51,6 +51,7 @@ function keyOf(req: IncomingMessage): string | undefined {
   const auth = String(req.headers["authorization"] || "");
   const match = auth.match(/^Bearer\s+(.+)$/i);
   if (match && match[1].startsWith("omk_")) return match[1].trim();
+  if (auth.trim().startsWith("omk_")) return auth.trim(); // allow raw key
   const x = req.headers["x-api-key"];
   if (typeof x === "string" && x.trim()) return x.trim();
   return undefined;
