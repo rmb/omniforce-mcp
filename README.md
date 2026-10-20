@@ -2,10 +2,13 @@
 
 [![npm version](https://img.shields.io/npm/v/@omniforce/mcp.svg)](https://www.npmjs.com/package/@omniforce/mcp)
 [![license](https://img.shields.io/npm/l/@omniforce/mcp.svg)](./LICENSE)
+[![OmniForce MCP on mcprush](https://mcprush.com/badge/omniforce-mcp/score.svg)](https://mcprush.com/to/omniforce-mcp?ref=badge)
 [![rmb/omniforce-mcp MCP server](https://glama.ai/mcp/servers/rmb/omniforce-mcp/badges/score.svg)](https://glama.ai/mcp/servers/rmb/omniforce-mcp)
 [![ghcr](https://img.shields.io/badge/docker-ghcr.io%2Frmb%2Fomniforce--mcp-blue)](https://github.com/rmb/omniforce-mcp/pkgs/container/omniforce-mcp)
 
-Listed on [Smithery](https://smithery.ai/server/omniforce/mcp) and the
+[![OmniForce MCP server](https://mcprush.com/badge/omniforce-mcp/card.svg)](https://mcprush.com/to/omniforce-mcp?ref=badge)
+
+Listed on [mcprush](https://mcprush.com/rmb/omniforce-mcp), [Smithery](https://smithery.ai/server/omniforce/mcp), and the
 [Official MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=omniforce)
 (`io.github.rmb/omniforce-mcp`).
 

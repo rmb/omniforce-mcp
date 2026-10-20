@@ -120,6 +120,18 @@ Long:
   ```
 - *(Local MCPB alternative: `npm run mcpb` → `server.mcpb`.)*
 
+### mcprush — https://mcprush.com/rmb/omniforce-mcp
+- **Listing ID:** `omniforce-mcp` (`rmb/omniforce-mcp`)
+- **Security grade:** **A** (live, scanned automatically)
+- **Compact badge:**
+  ```md
+  [![OmniForce MCP on mcprush](https://mcprush.com/badge/omniforce-mcp/score.svg)](https://mcprush.com/to/omniforce-mcp?ref=badge)
+  ```
+- **Card badge:**
+  ```md
+  [![OmniForce MCP server](https://mcprush.com/badge/omniforce-mcp/card.svg)](https://mcprush.com/to/omniforce-mcp?ref=badge)
+  ```
+
 ### Glama — https://glama.ai/mcp/servers
 - **Account:** sign in, then use **Add Server**.
 - **Input:** the GitHub repo URL (Glama indexes public repos and reads npm
@@ -164,6 +176,7 @@ Long:
 - [x] Dev.to launch post: https://dev.to/official_ruimbarreira/omniforce-mcp-server-check-any-sites-ai-search-readiness-from-claude-or-cursor-19cc
 - [x] Deployed remote endpoint → `https://mcp-oss.omniforce.run/mcp`
 - [x] Smithery — published `https://mcp-oss.omniforce.run/mcp` (`omniforce/mcp`)
+- [x] mcprush — published `https://mcprush.com/rmb/omniforce-mcp` (Grade A + README badge)
 - [~] Glama — submitted, under review
 - [ ] mcp.so — paid only ($39); skipped
 - [~] PulseMCP — paused (auto-ingests the Official Registry when back)
